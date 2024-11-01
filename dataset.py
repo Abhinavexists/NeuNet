@@ -1,5 +1,5 @@
 import numpy as np
-
+import matplotlib.pyplot as plt
 
 # The create_data function generates a synthetic dataset with data points arranged in a spiral pattern,
 # separated into multiple classes. This can be useful for testing classification algorithms because the
@@ -17,15 +17,7 @@ def create_data(points , classes):
         Y[ix] = class_number
     return X ,Y
 
-import matplotlib.pyplot as plt
-
 print("here")
 X ,Y = create_data(100,3) # 3 classes of each feature sets each
 
-plt.figure(figsize=(8, 6))
-plt.scatter(X[:, 0], X[:, 1], c=Y, cmap="plasma", edgecolor="k", s=40)
-plt.title("Spiral Dataset")
-plt.xlabel("X-axis")
-plt.ylabel("Y-axis")
-plt.colorbar(label="Class Label")
-plt.show()
+

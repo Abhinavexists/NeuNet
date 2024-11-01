@@ -2,6 +2,7 @@ import sys
 import numpy as np
 import matplotlib
 from dataset import create_data
+from plot import scatter_plot
 
 np.random.seed(0)
 
@@ -35,6 +36,8 @@ activation1.forward(layer1.output)
 layer2.forward(layer1.output)
 print(layer2.output)
 activation2.forward(layer2.output)
+
+scatter_plot()
 
 # weights = [[3.9 , 7.6 , 4.3 , 1.0], # weights of each input (random number)
 #           [3.6 , 7.0 , 5.0 , 1.7],
