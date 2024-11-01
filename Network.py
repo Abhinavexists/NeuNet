@@ -1,12 +1,16 @@
 import sys
 import numpy as np
 import matplotlib
+from dataset import create_data
 
 np.random.seed(0)
 
 X = [[1.2 , 3.4 , 5.9 , 3.6], #output numbers treated as input for upcoming layers
           [2.0 , 5.0 , 4.1 , 2.0],
           [-1.5 , 2.7 , 3.3 , -0.8]]
+
+X ,Y = create_data(100 , 3)
+print(create_data)
 
 class Layer_Dense:
     def __init__(self , n_inputs , n_neurons):
@@ -15,13 +19,22 @@ class Layer_Dense:
     def forward(self , inputs):
         self.output = np.dot(inputs ,self.weights) + self.biases
 
-layer1 = Layer_Dense(4,5)
+class Activation_ReLU:
+    def forward(self , inputs):
+        self.output = np.maximum(0 , inputs)
+
+
+layer1 = Layer_Dense(2,5)
+activation1 = Activation_ReLU()
 layer2 = Layer_Dense(5,2)
+activation2 = Activation_ReLU()
 
 layer1.forward(X)
 print(layer1.output)
+activation1.forward(layer1.output)
 layer2.forward(layer1.output)
 print(layer2.output)
+activation2.forward(layer2.output)
 
 # weights = [[3.9 , 7.6 , 4.3 , 1.0], # weights of each input (random number)
 #           [3.6 , 7.0 , 5.0 , 1.7],
