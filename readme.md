@@ -1,4 +1,4 @@
-# Neural Network Implementation Project
+# Neural Network From Scratch
 
 ## Overview
 This project implements a basic neural network from scratch using NumPy. It currently includes a spiral dataset generator and a simple feedforward neural network with dense layers, ReLU, and Softmax activation functions.
