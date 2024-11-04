@@ -43,22 +43,28 @@ class Loss_Categoricalcrossentropy(Loss):
         
 X,Y = create_data(samples=100, classes=3)
 
-dense1 = Layer_Dense(2,3)
+hidden_layer1 = Layer_Dense(2, 8) # 2 input features and 3 neurons
 activation1 = Activation_ReLU()
 
-dense2 = Layer_Dense(3,3)
-activation2 = Activation_softmax()
+hidden_layer2 = Layer_Dense(8, 6) # with 3 input features (from the previous layer) and 64 output neurons.
+activation2 = Activation_ReLU()
 
-dense1.forward(X)
-activation1.forward(dense1.output)
+hidden_layer3 = Layer_Dense(6, 3)
+activation3 = Activation_softmax()
 
-dense2.forward(activation1.output)
-activation2.forward(dense2.output)
+hidden_layer1.forward(X)
+activation1.forward(hidden_layer1.output)
 
-print(activation2.output[:5])
+hidden_layer2.forward(activation1.output)
+activation2.forward(hidden_layer2.output)
+
+hidden_layer3.forward(activation2.output)
+activation3.forward(hidden_layer3.output)
+
+print(activation3.output[:5])
 
 Loss_function = Loss_Categoricalcrossentropy()
-loss = Loss_function.calculate(activation2.output , Y)
+loss = Loss_function.calculate(activation3.output , Y)
 
 print("Loss" , loss)
 
