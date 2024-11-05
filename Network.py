@@ -8,14 +8,27 @@ np.random.seed(0)
 
 # Define a dense (fully-connected) layer
 class Layer_Dense:
-    def __init__(self, n_inputs, n_neurons):
+    def __init__(self, n_inputs, n_neurons , learning_rate = 0.01):
         # Initialize weights with a small random value and biases as zeros
         self.weights = 0.10 * np.random.randn(n_inputs, n_neurons)
         self.biases = np.zeros((1, n_neurons))
+        self.learning_rate = learning_rate # Learning rate for gradient descent
 
     def forward(self, inputs):
         # Perform a forward pass: calculate the output as the dot product of inputs and weights, plus biases
         self.output = np.dot(inputs, self.weights) + self.biases
+
+    def backward(self, dvalues):
+        # Gradient on Parameters
+        self.dweight = np.dot(self.inputs.T , dvalues)
+        self.dbiases = np.sum(dvalues, axis=0 , keepdims=0)
+
+        # Gradient on the values, to pass to the previous layer
+        self.dinputs = np.dot(dvalues , self.weights.T)
+
+        # Update weights and biases using gradient descent
+        self.weights -= self.learning_rate + self.dweight
+        self.biases -= self.learning_rate + self.dbiases
 
 # Define the ReLU activation function class
 class Activation_ReLU:
@@ -23,6 +36,11 @@ class Activation_ReLU:
         # Apply ReLU (Rectified Linear Unit): max(0, x)
         self.output = np.maximum(0, inputs)
 
+    def backward(self, dvalues):
+        self.dinputs = dvalues.copy()
+        # Zero gradient where input values were negative or zero
+        self.dinputs[self.inputs <=0 ] = 0
+        
 # Define the softmax activation function class
 class Activation_softmax:
     def forward(self, inputs):
