@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 from dataset import create_data
 
-X ,Y = create_data(100,3)
+X, Y = create_data(100,3)
 
 def scatter_plot():
     plt.figure(figsize=(8, 6))
