@@ -17,6 +17,7 @@ class Layer_Dense:
 
     def forward(self, inputs):
         # Perform a forward pass
+        self.inputs = inputs  # Store inputs for backward pass
         self.output = np.dot(inputs, self.weights) + self.biases
 
     def backward(self, dvalues, epoch):
@@ -27,20 +28,29 @@ class Layer_Dense:
         self.dweight = np.dot(self.inputs.T, dvalues)
         self.dbiases = np.sum(dvalues, axis=0, keepdims=True)  # keepdims=1 to match bias shape
 
+        # Gradient on inputs for next layer's backward pass
+        self.dinputs = np.dot(dvalues, self.weights.T)
+
         # Update weights and biases using decayed learning rate
         self.weights -= self.learning_rate * self.dweight
         self.biases -= self.learning_rate * self.dbiases
 
+        return self.dinputs
+
 # Define the ReLU activation function class
 class Activation_ReLU:
     def forward(self, inputs):
+        # Store inputs for backward pass
+        self.inputs = inputs
         # Apply ReLU (Rectified Linear Unit)
         self.output = np.maximum(0, inputs)
 
     def backward(self, dvalues):
+        # Create a copy of dvalues
         self.dinputs = dvalues.copy()
         # Zero gradient where input values were negative or zero
         self.dinputs[self.inputs <= 0] = 0
+        return self.dinputs
 
 # Define the softmax activation function class
 class Activation_softmax:
@@ -52,16 +62,21 @@ class Activation_softmax:
 
     def backward(self, dvalues):
         # Number of samples
-        batch_size = dvalues.shape[0]
-
-        # Gradient of softmax output
-        # Using the softmax gradient formula
-        self.dinputs = self.output.copy()  # shape (batch_size, n_classes)
+        batch_size = len(dvalues)
+        
+        # Initialize dinputs with zeros
+        self.dinputs = np.zeros_like(dvalues)
+        
         for i in range(batch_size):
-            # Jacobian matrix for softmax
-            jacobian_matrix = np.diag(self.output[i]) - np.dot(self.output[i].reshape(-1, 1), self.output[i].reshape(1, -1))
-            self.dinputs[i] = np.dot(jacobian_matrix, dvalues[i])  # Applying the gradient to the Jacobian
-
+            # Single output vector
+            output_single = self.output[i].reshape(-1, 1)
+            
+            # Create Jacobian matrix
+            jacobian_matrix = output_single * (np.eye(len(output_single)) - output_single.T)
+            
+            # Compute gradient
+            self.dinputs[i] = np.dot(jacobian_matrix, dvalues[i])
+        
         return self.dinputs
 
 # Base class for calculating loss
@@ -91,7 +106,8 @@ class Loss_Categoricalcrossentropy(Loss):
         y_pred_clipped = np.clip(y_pred, 1e-7, 1 - 1e-7)
 
         if len(y_true.shape) == 1:
-            self.dinputs = -1 / y_pred_clipped[range(sample_size), y_true]
+            self.dinputs = np.zeros_like(y_pred)
+            self.dinputs[range(sample_size), y_true] = -1 / y_pred_clipped[range(sample_size), y_true]
             self.dinputs = self.dinputs / sample_size  # Average the gradients
         elif len(y_true.shape) == 2:
             self.dinputs = -y_true / y_pred_clipped
@@ -99,51 +115,58 @@ class Loss_Categoricalcrossentropy(Loss):
 
         return self.dinputs
 
-# Generate a dataset with 100 samples and 3 classes
-X, Y = create_data(samples=100, classes=3)
+def main():
+    # Generate a dataset with 100 samples and 3 classes
+    X, Y = create_data(samples=100, classes=3)
 
-# Initialize layers and activation functions
-hidden_layer1 = Layer_Dense(2, 8, learning_rate=0.02)  # First hidden layer
-activation1 = Activation_ReLU()
+    # Initialize layers and activation functions
+    hidden_layer1 = Layer_Dense(2, 8, learning_rate=0.02)  # First hidden layer
+    activation1 = Activation_ReLU()
 
-hidden_layer2 = Layer_Dense(8, 6, learning_rate=0.01)  # Second hidden layer
-activation2 = Activation_ReLU()
+    hidden_layer2 = Layer_Dense(8, 6, learning_rate=0.01)  # Second hidden layer
+    activation2 = Activation_ReLU()
 
-output_layer = Layer_Dense(6, 3, learning_rate=0.02)  # Output layer
-activation3 = Activation_softmax()
+    output_layer = Layer_Dense(6, 3, learning_rate=0.02)  # Output layer
+    activation3 = Activation_softmax()
 
-# Calculate the loss using categorical cross-entropy
-Loss_function = Loss_Categoricalcrossentropy()
+    # Calculate the loss using categorical cross-entropy
+    Loss_function = Loss_Categoricalcrossentropy()
 
-# User inputs for epochs
-epochs = int(input("Enter the number of epochs: "))
+    # User inputs for epochs
+    epochs = int(input("Enter the number of epochs: "))
 
-# Training loop
-for epoch in range(epochs):
-    # Forward pass through layers
-    hidden_layer1.forward(X)
-    activation1.forward(hidden_layer1.output)
+    # Training loop
+    for epoch in range(epochs):
+        # Forward pass through layers
+        hidden_layer1.forward(X)
+        activation1.forward(hidden_layer1.output)
 
-    hidden_layer2.forward(activation1.output)
-    activation2.forward(hidden_layer2.output)
+        hidden_layer2.forward(activation1.output)
+        activation2.forward(hidden_layer2.output)
 
-    output_layer.forward(activation2.output)
-    activation3.forward(output_layer.output)
+        output_layer.forward(activation2.output)
+        activation3.forward(output_layer.output)
 
-    loss_value = Loss_function.calculate(activation3.output, Y)  # Get the float loss value
-    loss_gradient = Loss_function.backward(activation3.output, Y)  # Backward pass for loss
-    activation3.backward(loss_gradient)  # Backward pass for the output layer
+        # Calculate loss
+        loss_value = Loss_function.calculate(activation3.output, Y)
+        loss_gradient = Loss_function.backward(activation3.output, Y)
 
-    output_layer.backward(activation3.dinputs, epoch)  # Backward pass for the output layer
-    activation2.backward(output_layer.dinputs)  # Backward pass for second hidden layer
-    hidden_layer2.backward(activation2.dinputs)  # Backward pass for first hidden layer
-    activation1.backward(hidden_layer2.dinputs)  # Backward pass for the input layer
-    hidden_layer1.backward(activation1.dinputs)  # Backward pass for the input layer
+        # Backward pass through layers
+        activation3.backward(loss_gradient)
+        output_layer.backward(activation3.dinputs, epoch)
 
-# Display the output of the final layer (softmax probabilities) for the first 5 samples
-print(activation3.output[:5])
+        activation2.backward(output_layer.dinputs)
+        hidden_layer2.backward(activation2.dinputs, epoch)
 
-loss = Loss_function.calculate(activation3.output, Y)
+        activation1.backward(hidden_layer2.dinputs)
+        hidden_layer1.backward(activation1.dinputs, epoch)
 
-# Print the final loss value
-print("Loss", loss)
+        # Optionally print loss every few epochs
+        if epoch % 10 == 0:
+            print(f"Epoch {epoch}, Loss: {loss_value}")
+
+    print("\nProbabilities:")
+    print(activation3.output[:5])
+
+    # Print the final loss value
+    print(f"\nFinal Loss: {loss_value}")
