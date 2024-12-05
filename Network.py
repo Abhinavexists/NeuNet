@@ -154,10 +154,8 @@ def main():
         # Backward pass through layers
         activation3.backward(loss_gradient)
         output_layer.backward(activation3.dinputs, epoch)
-
         activation2.backward(output_layer.dinputs)
         hidden_layer2.backward(activation2.dinputs, epoch)
-
         activation1.backward(hidden_layer2.dinputs)
         hidden_layer1.backward(activation1.dinputs, epoch)
 
@@ -165,8 +163,19 @@ def main():
         if epoch % 10 == 0:
             print(f"Epoch {epoch}, Loss: {loss_value}")
 
-    print("\nProbabilities:")
+    def calcuate_accuracy(y_true, y_pred):
+        predictions = np.argmax(y_pred , axis = 1) if y_pred.ndim > 1 else y_pred
+        return np.mean(predictions == y_true)
+
+    # Display the output of the final layer (softmax probabilities) for the first 5 samples
+    print("\nSoftmax Probabilities for First 5 Samples:")
     print(activation3.output[:5])
+
+    accuracy = calcuate_accuracy(Y , activation3.output)
+    print("Accuracy",accuracy)
 
     # Print the final loss value
     print(f"\nFinal Loss: {loss_value}")
+
+if __name__ == "__main__":
+    main()
