@@ -168,7 +168,7 @@ def main():
         return np.mean(predictions == y_true)
 
     # Display the output of the final layer (softmax probabilities) for the first 5 samples
-    print("\nSoftmax Probabilities for First 5 Samples:")
+    print("\nProbabilities for First 5 Samples:")
     print(activation3.output[:5])
 
     accuracy = calcuate_accuracy(Y , activation3.output)

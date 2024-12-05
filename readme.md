@@ -1,7 +1,7 @@
 # Neural Network From Scratch
 
 ## Overview
-This project implements a basic neural network from scratch using NumPy. It currently includes a spiral dataset generator and a simple feedforward neural network with dense layers, ReLU, and Softmax activation functions.
+This project implements a basic neural network from scratch using NumPy. It currently includes a spiral dataset generator and a simple feedforward and Backpropogation with gradient decent neural network with dense layers, ReLU, and Softmax activation functions.
 
 ## Current Features
 - Synthetic spiral dataset generation for multi-class classification
@@ -80,3 +80,32 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+
+## Recent Updates in `Network.py`
+### Dynamic Learning Rate Decay
+The network now dynamically adjusts the learning rate using an exponential decay mechanism based on the epoch count.
+
+### Categorical Cross-Entropy Loss
+A complete implementation of the categorical cross-entropy loss function is included, with both forward and backward passes to compute gradients.
+
+### Accuracy Calculation
+An accuracy calculation method compares predictions with true labels and outputs the accuracy score.
+
+## Training Process
+When you run `Network.py`, the following steps are performed:
+1. A synthetic dataset is generated using `dataset.py`.
+2. The neural network, with two dense layers and ReLU activation, processes the data.
+3. Training is performed for a user-specified number of epochs, with dynamic learning rate decay applied.
+4. The model calculates and displays:
+   - Softmax probabilities of the first 5 samples.
+   - The final loss value.
+   - The overall accuracy.
+
+### Example Usage
+Run the training script:
+```bash
+python Network.py
+```
+
+Expected output includes the loss at intervals and final metrics like probabilities, loss, and accuracy.
