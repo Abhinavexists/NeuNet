@@ -81,9 +81,9 @@ class Activation_softmax:
 
 # Base class for calculating loss
 class Loss:
-    def calculate(self, output, y):
+    def calculate(self, output, y , layer=None):
         # Calculate the mean of losses for each sample in the batch
-        sample_losses = self.forward(output, y)
+        sample_losses = self.forward(output, y, layer)
         data_loss = np.mean(sample_losses)
         return data_loss
 
@@ -94,7 +94,7 @@ class Loss_Categoricalcrossentropy(Loss):
         self.regularization_l2 = regularization_l2
         self.regularization_l1 = regularization_l1
 
-    def forward(self, y_pred, y_true):
+    def forward(self, y_pred, y_true  , layer=None):
         sample = len(y_pred)
         y_pred_clipped = np.clip(y_pred, 1e-7, 1 - 1e-7)
 
@@ -107,23 +107,21 @@ class Loss_Categoricalcrossentropy(Loss):
         data_loss =  np.mean(negative_log_likelihood)
          
         regularization_loss = 0
-        if Layer_Dense is not None:
+        if layer is not None:
             # L2 regularisation loss
             if self.regularization_l2 > 0:
-                regularization_loss += (
-                    self.regularization_l2*np.sum(Layer_Dense.weights**2)
-                                        +self.regularization_l2*np.sum(Layer_Dense.weights**2))
+                regularization_loss += self.regularization_l2 * np.sum(layer.weights**2)
+                regularization_loss += self.regularization_l2 * np.sum(layer.biases**2)
 
             # l1 regularisation Loss  
             if self.regularization_l1 > 0:
-                regularization_loss += (
-                    self.regularization_l2*np.sum(Layer_Dense.weights**2)
-                                        +self.regularization_l2*np.sum(Layer_Dense.weights**2))
+                regularization_loss += self.regularization_l1 * np.sum(np.abs(layer.weights))
+                regularization_loss += self.regularization_l1 * np.sum(np.abs(layer.biases))
                 
         return data_loss + regularization_loss
                 
 
-    def backward(self, y_pred, y_true):
+    def backward(self, y_pred, y_true, layer=None):
         sample_size = len(y_pred)
         y_pred_clipped = np.clip(y_pred, 1e-7, 1 - 1e-7)
 
@@ -136,14 +134,14 @@ class Loss_Categoricalcrossentropy(Loss):
             self.dinputs = self.dinputs / sample_size  # Average the gradients
 
         # Added regularization gradients
-        if Layer_Dense is not None:
+        if layer is not None:
             if self.regularization_l2 > 0:
-                Layer_Dense.dweights += 2*self.regularization_l2*Layer_Dense.weights
-                Layer_Dense.dbiases += 2*self.regularization_l2*Layer_Dense.biases
+                layer.dweights += 2*self.regularization_l2*layer.weights
+                layer.dbiases += 2*self.regularization_l2*layer.biases
             
             if self.regularization_l1 > 0:
-                Layer_Dense.dweights += 2*self.regularization_l1*Layer_Dense.weights
-                Layer_Dense.dbiases += 2*self.regularization_l1*Layer_Dense.biases
+                layer.dweights += 2*self.regularization_l1*np.sign(layer.weights)
+                layer.dbiases += 2*self.regularization_l1*np.sign(layer.biases)
 
         return self.dinputs
 
@@ -180,8 +178,8 @@ def main():
         activation3.forward(output_layer.output)
 
         # Calculate loss
-        loss_value = Loss_function.calculate(activation3.output, Y)
-        loss_gradient = Loss_function.backward(activation3.output, Y)
+        loss_value = Loss_function.calculate(activation3.output, Y , layer=output_layer)
+        loss_gradient = Loss_function.backward(activation3.output, Y , layer=output_layer)
 
         # Backward pass through layers
         activation3.backward(loss_gradient)
