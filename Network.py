@@ -89,6 +89,11 @@ class Loss:
 
 # Define the categorical cross-entropy loss class
 class Loss_Categoricalcrossentropy(Loss):
+    def __init__(self , regularization_l2=0.0 , regularization_l1=0.0):
+        #Regularisation hyperparameter
+        self.regularization_l2 = regularization_l2
+        self.regularization_l1 = regularization_l1
+
     def forward(self, y_pred, y_true):
         sample = len(y_pred)
         y_pred_clipped = np.clip(y_pred, 1e-7, 1 - 1e-7)
@@ -99,7 +104,24 @@ class Loss_Categoricalcrossentropy(Loss):
             correct_confidence = np.sum(y_pred_clipped * y_true, axis=1)
 
         negative_log_likelihood = -np.log(correct_confidence)
-        return negative_log_likelihood
+        data_loss =  np.mean(negative_log_likelihood)
+         
+        regularization_loss = 0
+        if Layer_Dense is not None:
+            # L2 regularisation loss
+            if self.regularization_l2 > 0:
+                regularization_loss += (
+                    self.regularization_l2*np.sum(Layer_Dense.weights**2)
+                                        +self.regularization_l2*np.sum(Layer_Dense.weights**2))
+
+            # l1 regularisation Loss  
+            if self.regularization_l1 > 0:
+                regularization_loss += (
+                    self.regularization_l2*np.sum(Layer_Dense.weights**2)
+                                        +self.regularization_l2*np.sum(Layer_Dense.weights**2))
+                
+        return data_loss + regularization_loss
+                
 
     def backward(self, y_pred, y_true):
         sample_size = len(y_pred)
@@ -112,6 +134,16 @@ class Loss_Categoricalcrossentropy(Loss):
         elif len(y_true.shape) == 2:
             self.dinputs = -y_true / y_pred_clipped
             self.dinputs = self.dinputs / sample_size  # Average the gradients
+
+        # Added regularization gradients
+        if Layer_Dense is not None:
+            if self.regularization_l2 > 0:
+                Layer_Dense.dweights += 2*self.regularization_l2*Layer_Dense.weights
+                Layer_Dense.dbiases += 2*self.regularization_l2*Layer_Dense.biases
+            
+            if self.regularization_l1 > 0:
+                Layer_Dense.dweights += 2*self.regularization_l1*Layer_Dense.weights
+                Layer_Dense.dbiases += 2*self.regularization_l1*Layer_Dense.biases
 
         return self.dinputs
 
