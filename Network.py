@@ -1,6 +1,5 @@
 import numpy as np
 from dataset import create_data  # Import a function to create sample data
-from plot import scatter_plot  # Import a function to visualize data (optional)
 
 # Set a random seed for reproducibility
 np.random.seed(0)
