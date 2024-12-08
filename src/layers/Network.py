@@ -1,5 +1,6 @@
 import numpy as np
-from dataset import create_data  # Import a function to create sample data
+from src.layers.dataset import create_data  # Import a function to create sample data
+from src.utils.network_data import export_network
 
 # Set a random seed for reproducibility
 np.random.seed(0)
@@ -144,6 +145,10 @@ class Loss_Categoricalcrossentropy(Loss):
 
         return self.dinputs
 
+def calcuate_accuracy(y_true, y_pred):
+        predictions = np.argmax(y_pred , axis = 1) if y_pred.ndim > 1 else y_pred
+        return np.mean(predictions == y_true)
+
 def main():
     # Generate a dataset with 100 samples and 3 classes
     X, Y = create_data(samples=100, classes=3)
@@ -192,10 +197,6 @@ def main():
         if epoch % 10 == 0:
             print(f"Epoch {epoch}, Loss: {loss_value}")
 
-    def calcuate_accuracy(y_true, y_pred):
-        predictions = np.argmax(y_pred , axis = 1) if y_pred.ndim > 1 else y_pred
-        return np.mean(predictions == y_true)
-
     # Display the output of the final layer (softmax probabilities) for the first 5 samples
     print("\nProbabilities for First 5 Samples:")
     print(activation3.output[:5])
@@ -205,6 +206,8 @@ def main():
 
     # Print the final loss value
     print(f"\nFinal Loss: {loss_value}")
+
+    export_network(hidden_layer1, hidden_layer2, output_layer)
 
 if __name__ == "__main__":
     main()

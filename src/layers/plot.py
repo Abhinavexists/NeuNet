@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from dataset import create_data
+from src.layers.dataset import create_data
 
 X, Y = create_data(100,3)
 
