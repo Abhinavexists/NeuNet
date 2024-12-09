@@ -47,4 +47,4 @@ def visualize_network(json_file):
 
 # Run the visualization
 if __name__ == "__main__":
-    visualize_network("network_data.json")
+    visualize_network("D:\\Neural-Network-from_Scratch\\visualisation\\network_data.json")

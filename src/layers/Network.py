@@ -1,6 +1,10 @@
+import sys
+import os
 import numpy as np
-from src.layers.dataset import create_data  # Import a function to create sample data
+from dataset import create_data  # Import a function to create sample data
 from src.utils.network_data import export_network
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 # Set a random seed for reproducibility
 np.random.seed(0)
@@ -148,7 +152,7 @@ class Loss_Categoricalcrossentropy(Loss):
 def calcuate_accuracy(y_true, y_pred):
         predictions = np.argmax(y_pred , axis = 1) if y_pred.ndim > 1 else y_pred
         return np.mean(predictions == y_true)
-
+    
 def main():
     # Generate a dataset with 100 samples and 3 classes
     X, Y = create_data(samples=100, classes=3)
