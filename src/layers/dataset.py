@@ -18,6 +18,5 @@ def create_data(samples=50 , classes=3):
     return X ,Y
 
 print("here")
-X ,Y = create_data(100,3) # 3 classes of each feature sets each
 
 

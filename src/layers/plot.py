@@ -1,5 +1,5 @@
 import matplotlib.pyplot as plt
-from src.layers.dataset import create_data
+from dataset import create_data
 
 X, Y = create_data(100,3)
 
@@ -11,3 +11,6 @@ def scatter_plot():
     plt.ylabel("Y-axis")
     plt.colorbar(label="Class Label")
     plt.show()
+
+if __name__ == "__main__":
+    scatter_plot()
