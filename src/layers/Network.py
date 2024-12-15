@@ -11,7 +11,7 @@ np.random.seed(0)
 
 # Define a dense (fully-connected) layer
 class Layer_Dense:
-    def __init__(self, n_inputs, n_neurons, learning_rate=0.01, decay_rate=0.01):
+    def __init__(self, n_inputs, n_neurons, learning_rate=0.01, decay_rate=0.02):
         # Initialize weights with a small random value and biases as zeros
         self.weights = 0.10 * np.random.randn(n_inputs, n_neurons)
         self.biases = np.zeros((1, n_neurons))
@@ -158,14 +158,17 @@ def main():
     X, Y = create_data(samples=100, classes=3)
 
     # Initialize layers and activation functions
-    hidden_layer1 = Layer_Dense(2, 8, learning_rate=0.02)  # First hidden layer
+    hidden_layer1 = Layer_Dense(2, 32, learning_rate=0.1)  # First hidden layer with more neurons
     activation1 = Activation_ReLU()
 
-    hidden_layer2 = Layer_Dense(8, 6, learning_rate=0.01)  # Second hidden layer
+    hidden_layer2 = Layer_Dense(32, 32, learning_rate=0.01)  # Second hidden layer with more neurons
     activation2 = Activation_ReLU()
 
-    output_layer = Layer_Dense(6, 3, learning_rate=0.02)  # Output layer
-    activation3 = Activation_softmax()
+    hidden_layer3 = Layer_Dense(32, 16, learning_rate=0.01)  # Third hidden layer
+    activation3 = Activation_ReLU()
+
+    output_layer = Layer_Dense(16, 3, learning_rate=0.01)  # Output layer
+    activation4 = Activation_softmax()
 
     # Calculate the loss using categorical cross-entropy
     Loss_function = Loss_Categoricalcrossentropy()
@@ -182,17 +185,22 @@ def main():
         hidden_layer2.forward(activation1.output)
         activation2.forward(hidden_layer2.output)
 
-        output_layer.forward(activation2.output)
-        activation3.forward(output_layer.output)
+        hidden_layer3.forward(activation2.output)
+        activation3.forward(hidden_layer3.output)
+
+        output_layer.forward(activation3.output)
+        activation4.forward(output_layer.output)
 
         # Calculate loss
-        loss_value = Loss_function.calculate(activation3.output, Y , layer=output_layer)
-        loss_gradient = Loss_function.backward(activation3.output, Y , layer=output_layer)
+        loss_value = Loss_function.calculate(activation4.output, Y , layer=output_layer)
+        loss_gradient = Loss_function.backward(activation4.output, Y , layer=output_layer)
 
         # Backward pass through layers
-        activation3.backward(loss_gradient)
-        output_layer.backward(activation3.dinputs, epoch)
-        activation2.backward(output_layer.dinputs)
+        activation4.backward(loss_gradient)
+        output_layer.backward(activation4.dinputs, epoch)
+        activation3.backward(output_layer.dinputs)
+        hidden_layer3.backward(activation3.dinputs, epoch)
+        activation2.backward(hidden_layer3.dinputs)
         hidden_layer2.backward(activation2.dinputs, epoch)
         activation1.backward(hidden_layer2.dinputs)
         hidden_layer1.backward(activation1.dinputs, epoch)
@@ -203,15 +211,15 @@ def main():
 
     # Display the output of the final layer (softmax probabilities) for the first 5 samples
     print("\nProbabilities for First 5 Samples:")
-    print(activation3.output[:5])
+    print(activation4.output[:5])
 
-    accuracy = calcuate_accuracy(Y , activation3.output)
+    accuracy = calcuate_accuracy(Y , activation4.output)
     print("Accuracy",accuracy)
 
     # Print the final loss value
     print(f"\nFinal Loss: {loss_value}")
 
-    export_network(hidden_layer1, hidden_layer2, output_layer)
+    export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer)
 
 if __name__ == "__main__":
     main()
