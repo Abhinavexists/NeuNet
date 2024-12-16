@@ -67,20 +67,7 @@ This project is actively under development. Planned features include:
 - Documentation improvements
 - Testing suite
 
-## Contributing
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on how to:
-- Submit issues
-- Submit pull requests
-- Follow coding standards
-- Contribute to documentation
-
-## Dependencies
-- NumPy
-- Matplotlib
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
+  
 
 ## Recent Updates in `Network.py`
 ### Dynamic Learning Rate Decay
@@ -109,3 +96,17 @@ python Network.py
 ```
 
 Expected output includes the loss at intervals and final metrics like probabilities, loss, and accuracy.
+
+## Contributing
+We welcome contributions! Please feel free to:-
+- Submit issues
+- Submit pull requests
+- Contribute to documentation
+
+## Dependencies
+- NumPy
+- Matplotlib
+
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
