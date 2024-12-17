@@ -40,6 +40,23 @@ class Layer_Dense:
         self.biases -= self.learning_rate * self.dbiases
 
         return self.dinputs
+    
+class optimizer_SGD_Momentum:
+    def __init__(self, learning_rate=0.01 , momentum=0.9):
+        self.learning_rate = learning_rate
+        self.momentum = momentum
+
+        self.velocity_weights = None
+        self.velocity_biases = None
+
+    def update_params(self, layer):
+        if self.velocity_weights is None:
+            self.velocity_weights = np.zeros_like(layer.weights)
+            self.velocity_biases = np.zeros_like(layer.biases)
+
+        
+
+
 
 # Define the ReLU activation function class
 class Activation_ReLU:
