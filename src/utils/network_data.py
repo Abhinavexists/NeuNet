@@ -1,12 +1,13 @@
 import json
 
-def export_network(hidden_layer1, hidden_layer2, output_layer):
+def export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer):
     # Collect neuron counts for each layer
         network_data = {
             "layers": [
                 {"type": "input", "neurons": 2},  # Input layer
-                {"type": "hidden", "neurons": 8},  # Hidden layer 1
-                {"type": "hidden", "neurons": 6},  # Hidden layer 2
+                {"type": "hidden", "neurons": 32},  # Hidden layer 1
+                {"type": "hidden", "neurons": 32},  # Hidden layer 2
+                {"type": "hidden", "neurons": 16},  # Hidden layer 3
                 {"type": "output", "neurons": 3},  # Output layer
             ],
             "connections": [],
@@ -17,6 +18,7 @@ def export_network(hidden_layer1, hidden_layer2, output_layer):
             [
                 (hidden_layer1.weights, "hidden_layer1"),
                 (hidden_layer2.weights, "hidden_layer2"),
+                (hidden_layer3.weights, "hidden_layer3"),
                 (output_layer.weights, "output_layer"),
             ]
         ):
