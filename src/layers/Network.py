@@ -2,9 +2,9 @@ import sys
 import os
 import numpy as np
 from dataset import create_data  # Import a function to create sample data
-# from src.utils.network_data import export_network
+from src.utils.network_data import export_network
 
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 # Set a random seed for reproducibility
 np.random.seed(0)
@@ -250,7 +250,7 @@ def main():
     # Print the final loss value
     print(f"\nFinal Loss: {loss_value}")
 
-    # export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer)
+    export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer)
 
 if __name__ == "__main__":
     main()
