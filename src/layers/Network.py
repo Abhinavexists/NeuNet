@@ -2,22 +2,28 @@ import sys
 import os
 import numpy as np
 from dataset import create_data  # Import a function to create sample data
-from src.utils.network_data import export_network
+# from src.utils.network_data import export_network
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 # Set a random seed for reproducibility
 np.random.seed(0)
 
 # Define a dense (fully-connected) layer
 class Layer_Dense:
-    def __init__(self, n_inputs, n_neurons, learning_rate=0.01, decay_rate=0.02):
+    def __init__(self, n_inputs, n_neurons, learning_rate=0.01, decay_rate=0.02, momentum=0.9):
         # Initialize weights with a small random value and biases as zeros
         self.weights = 0.10 * np.random.randn(n_inputs, n_neurons)
         self.biases = np.zeros((1, n_neurons))
         self.decay_rate = decay_rate
         self.learning_rate = learning_rate  # Learning rate for gradient descent
         self.initial_learning_rate = learning_rate  # Store the initial learning rate
+        self.momentum = momentum
+
+        self.optimiser = Optimizer_SGD_Momentum(
+            learning_rate= learning_rate,
+            momentum= self.momentum
+        )
 
     def forward(self, inputs):
         # Perform a forward pass
@@ -41,7 +47,7 @@ class Layer_Dense:
 
         return self.dinputs
     
-class optimizer_SGD_Momentum:
+class Optimizer_SGD_Momentum:
     def __init__(self, learning_rate=0.01 , momentum=0.9):
         self.learning_rate = learning_rate
         self.momentum = momentum
@@ -54,10 +60,18 @@ class optimizer_SGD_Momentum:
             self.velocity_weights = np.zeros_like(layer.weights)
             self.velocity_biases = np.zeros_like(layer.biases)
 
+        self.velocity_weights = (
+            self.momentum * self.velocity_weights +
+            self.learning_rate * self.dweight
+        )
+        self.velocity_biases = (
+            self.momentum * self.velocity_biases +
+            self.learning_rate * self.dbiases
+        )
+
+        layer.weights = self.velocity_weights
+        layer.biases = self.velocity_biases
         
-
-
-
 # Define the ReLU activation function class
 class Activation_ReLU:
     def forward(self, inputs):
@@ -175,16 +189,16 @@ def main():
     X, Y = create_data(samples=100, classes=3)
 
     # Initialize layers and activation functions
-    hidden_layer1 = Layer_Dense(2, 32, learning_rate=0.1)  # First hidden layer with more neurons
+    hidden_layer1 = Layer_Dense(2, 32, learning_rate=0.1, momentum=0.9)  # First hidden layer with more neurons
     activation1 = Activation_ReLU()
 
-    hidden_layer2 = Layer_Dense(32, 32, learning_rate=0.01)  # Second hidden layer with more neurons
+    hidden_layer2 = Layer_Dense(32, 32, learning_rate=0.01, momentum=0.9)  # Second hidden layer with more neurons
     activation2 = Activation_ReLU()
 
-    hidden_layer3 = Layer_Dense(32, 16, learning_rate=0.01)  # Third hidden layer
+    hidden_layer3 = Layer_Dense(32, 16, learning_rate=0.01, momentum=0.9)  # Third hidden layer
     activation3 = Activation_ReLU()
 
-    output_layer = Layer_Dense(16, 3, learning_rate=0.01)  # Output layer
+    output_layer = Layer_Dense(16, 3, learning_rate=0.01, momentum=0.9)  # Output layer
     activation4 = Activation_softmax()
 
     # Calculate the loss using categorical cross-entropy
@@ -236,7 +250,7 @@ def main():
     # Print the final loss value
     print(f"\nFinal Loss: {loss_value}")
 
-    export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer)
+    # export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer)
 
 if __name__ == "__main__":
     main()
