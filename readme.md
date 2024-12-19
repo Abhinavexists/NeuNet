@@ -69,8 +69,6 @@ Manages configurations and parameters of the neural network stored in `network_d
 Provides an interactive visualization of the neural network structure using Plotly.
 
 ## Neural Network Diagram
-Below is a placeholder for the neural network diagram. Add your image here:
-
 ![Neural Network Diagram](images/Neural_Network.png)
 
 ## Installation
