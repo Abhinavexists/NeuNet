@@ -71,7 +71,7 @@ Provides an interactive visualization of the neural network structure using Plot
 ## Neural Network Diagram
 Below is a placeholder for the neural network diagram. Add your image here:
 
-![Neural Network Diagram](images\Neural_Network.png)
+![Neural Network Diagram](images/Neural_Network.png)
 
 ## Installation
 1. Clone the repository:
