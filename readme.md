@@ -1,4 +1,4 @@
-# Neural Network From Scratch
+# NeuNet
 
 ## Overview
 This project implements a basic neural network from scratch using NumPy. It includes synthetic data generation, a feedforward neural network with backpropagation, and visualization tools. The network supports gradient descent optimization with ReLU and Softmax activation functions, along with additional features like loss calculation, accuracy evaluation, and dynamic learning rate adjustment.
