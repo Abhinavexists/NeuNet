@@ -1,7 +1,6 @@
 import json
 
 def export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer):
-    # Collect neuron counts for each layer
         network_data = {
             "layers": [
                 {"type": "input", "neurons": 2},  # Input layer
@@ -13,7 +12,6 @@ def export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer):
             "connections": [],
         }
 
-        # Collect weights for visualization
         for i, (weights, layer_name) in enumerate(
             [
                 (hidden_layer1.weights, "hidden_layer1"),
@@ -31,6 +29,5 @@ def export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer):
                     }
                     network_data["connections"].append(connection)
 
-        # Save as JSON
-        with open("network_data.json", "w") as file:
+        with open("src/utils/network_data.json", "w") as file:
             json.dump(network_data, file)

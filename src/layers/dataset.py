@@ -1,23 +1,54 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# The create_data function generates a synthetic dataset with data points arranged in a spiral pattern,
-# separated into multiple classes. This can be useful for testing classification algorithms because the
-# spiral pattern creates a challenging, non-linear classification problem.
-np.random.seed(0)
-
-def create_data(samples=50, classes=3, noise=0.4):
-    X = np.zeros((samples * classes, 2))
-    Y = np.zeros(samples * classes, dtype='uint8')
+def create_data(samples=100, classes=3, plot=True):
+    """
+    Create a synthetic dataset with extremely well-separated clusters for easier classification.
+    
+    Args:
+        samples: Number of data points to generate
+        classes: Number of classes to generate
+        plot: Whether to visualize the data
+        
+    Returns:
+        X: Feature data, shape (samples, 2)
+        y: Labels, shape (samples,)
+    """
+    # Set random seed for reproducibility
+    np.random.seed(0)
+    
+    # Generate synthetic data
+    X = np.zeros((samples, 2))
+    y = np.zeros(samples, dtype=np.int32)
+    
+    # Create extremely well-separated clusters for each class
+    points_per_class = samples // classes
+    centers = [
+        [-5, -5],  # Class 0
+        [0, 5],    # Class 1
+        [5, 0]     # Class 2
+    ]
+    
     for class_number in range(classes):
-        ix = range(samples * class_number, samples * (class_number + 1))
-        r = np.linspace(0.0, 1, samples)  # radius
-        t = np.linspace(class_number * 4, (class_number + 1) * 4, samples) + np.random.randn(samples) * noise
-        X[ix] = np.c_[r * np.sin(t * 2.5), r * np.cos(t * 2.5)]
-        Y[ix] = class_number
-    return X, Y
-
-
-print("Scatter Plot")
-
-
+        # Get center for this class
+        center_x, center_y = centers[class_number]
+        
+        # Create tight clusters around centers
+        ix = range(points_per_class * class_number, points_per_class * (class_number + 1))
+        X[ix] = np.random.randn(points_per_class, 2) * 0.3 + np.array([center_x, center_y])
+        y[ix] = class_number
+    
+    # Visualize the data if requested
+    if plot:
+        plt.figure(figsize=(10, 8))
+        plt.scatter(X[:, 0], X[:, 1], c=y, cmap='viridis', s=50, alpha=0.8)
+        plt.colorbar(label='Class')
+        plt.title('Synthetic Classification Dataset - Highly Separable')
+        plt.xlabel('Feature 1')
+        plt.ylabel('Feature 2')
+        plt.grid(True, alpha=0.3)
+        plt.tight_layout()
+        plt.savefig('scatter_plot.png')  # Save the plot
+        print("Scatter Plot")
+    
+    return X, y 
