@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuNet Documentation - Building Neural Networks from Scratch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0f172a">
+    <script>
+        document.documentElement.classList.remove('no-js');
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                    <circle cx="12" cy="12" r="3"/>
+                    <circle cx="6" cy="6" r="2"/>
+                    <circle cx="18" cy="6" r="2"/>
+                    <circle cx="6" cy="18" r="2"/>
+                    <circle cx="18" cy="18" r="2"/>
+                    <path d="m9 9 6-6"/>
+                    <path d="m15 9-6-6"/>
+                    <path d="m9 15 6 6"/>
+                    <path d="m15 15-6 6"/>
+                </svg>
+                NeuNet
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="implementation-guide.html">Implementation Guide</a></li>
+                <li><a href="development-timeline.html">Development Timeline</a></li>
+                <li><a href="reference.html">Reference</a></li>
+                <li><a href="https://github.com/Abhinavexists/NeuNet" target="_blank">GitHub</a></li>
+            </ul>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Building Neural Networks<br>from Scratch</h1>
+                <p class="subtitle">
+                    Comprehensive documentation for NeuNet - a complete neural network framework built with NumPy. 
+                    Learn the mathematical foundations, implementation details, and development journey.
+                </p>
+                <div class="cta-buttons">
+                    <a href="implementation-guide.html" class="btn btn-primary">
+                        Implementation Guide
+                    </a>
+                    <a href="development-timeline.html" class="btn btn-secondary">
+                        Development Timeline
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documentation Overview -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Documentation Overview</h2>
+                    <p class="section-subtitle">
+                        Explore comprehensive guides covering every aspect of neural network development
+                    </p>
+                </div>
+                
+                <div class="grid grid-auto">
+                    <div class="card">
+                        <div class="card-icon">
+                            <i data-lucide="layers" style="width: 48px; height: 48px; color: var(--color-primary);"></i>
+                        </div>
+                        <h3>Implementation Guide</h3>
+                        <p>
+                            A comprehensive technical walkthrough showing how to build a complete neural network 
+                            implementation from mathematical foundations to advanced optimization techniques.
+                        </p>
+                        <a href="implementation-guide.html" class="card-link">
+                            Read the guide →
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i data-lucide="activity" style="width: 48px; height: 48px; color: var(--color-success);"></i>
+                        </div>
+                        <h3>Development Timeline</h3>
+                        <p>
+                            Explore the commit-by-commit progression of NeuNet's development. Understand 
+                            architectural decisions and how complexity evolved organically.
+                        </p>
+                        <a href="development-timeline.html" class="card-link">
+                            View timeline →
+                        </a>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">
+                            <i data-lucide="book-open" style="width: 48px; height: 48px; color: var(--color-info);"></i>
+                        </div>
+                        <h3>API Reference</h3>
+                        <p>
+                            Complete reference documentation for all NeuNet classes, methods, and utilities.
+                            Perfect for developers integrating NeuNet into their projects.
+                        </p>
+                        <a href="reference.html" class="card-link">
+                            Browse API →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Stats -->
+        <section class="section">
+            <div class="container">
+                <div class="card">
+                    <div class="section-header">
+                        <h2 class="section-title">Project Overview</h2>
+                    </div>
+                    
+                    <div class="grid grid-cols-3" style="text-align: center;">
+                        <div>
+                            <div style="font-size: var(--text-4xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-2);">7</div>
+                            <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Development Phases</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--text-4xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-2);">15+</div>
+                            <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Core Components</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--text-4xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-2);">91%</div>
+                            <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Accuracy Achieved</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--text-4xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-2);">2</div>
+                            <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Advanced Optimizers</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--text-4xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-2);">5</div>
+                            <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">Activation Functions</div>
+                        </div>
+                        <div>
+                            <div style="font-size: var(--text-4xl); font-weight: var(--font-weight-bold); color: var(--color-primary); margin-bottom: var(--space-2);">100%</div>
+                            <div style="color: var(--color-text-secondary); font-size: var(--text-sm);">NumPy Implementation</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Learning Paths -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Learning Paths</h2>
+                    <p class="section-subtitle">
+                        Choose your learning journey based on your experience level
+                    </p>
+                </div>
+                
+                <div class="grid grid-auto">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Beginners <span style="background: var(--color-primary); color: var(--color-primary-text); font-size: var(--text-xs); padding: var(--space-1) var(--space-2); border-radius: var(--radius-base); font-weight: var(--font-weight-medium);">Start Here</span></h3>
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin: 0; color: var(--color-text-secondary);">
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Begin with Implementation Guide Phase 1
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Study dense layer and activation functions
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Understand the loss function implementation
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Learn the basic training loop concepts
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Developers <span style="background: var(--color-warning); color: white; font-size: var(--text-xs); padding: var(--space-1) var(--space-2); border-radius: var(--radius-base); font-weight: var(--font-weight-medium);">Intermediate</span></h3>
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin: 0; color: var(--color-text-secondary);">
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Review development timeline for insights
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Examine advanced optimization techniques
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Study modular design patterns
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Analyze design decisions
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>ML Engineers <span style="background: var(--color-error); color: white; font-size: var(--text-xs); padding: var(--space-1) var(--space-2); border-radius: var(--radius-base); font-weight: var(--font-weight-medium);">Advanced</span></h3>
+                        </div>
+                        <ul style="list-style: none; padding: 0; margin: 0; color: var(--color-text-secondary);">
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Focus on optimizer implementations
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Study regularization techniques
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Examine high-level design
+                            </li>
+                            <li style="margin-bottom: var(--space-3); position: relative; padding-left: var(--space-6);">
+                                <span style="position: absolute; left: 0; color: var(--color-primary); font-weight: var(--font-weight-semibold);">→</span>
+                                Review performance benchmarks
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features -->
+        <section class="section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">What You'll Learn</h2>
+                    <p class="section-subtitle">
+                        Master both the theory and practice of neural network development
+                    </p>
+                </div>
+                
+                <div class="grid grid-auto">
+                    <div class="card fade-in">
+                        <div class="card-icon">
+                            <i data-lucide="cpu" style="width: 48px; height: 48px; color: var(--color-primary);"></i>
+                        </div>
+                        <h3>Modular Architecture</h3>
+                        <p>Clean, extensible design with interchangeable components for maximum flexibility and maintainability.</p>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-icon">
+                            <i data-lucide="zap" style="width: 48px; height: 48px; color: var(--color-warning);"></i>
+                        </div>
+                        <h3>Advanced Optimizers</h3>
+                        <p>State-of-the-art Adam and SGD with momentum optimizers for faster convergence and better performance.</p>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-icon">
+                            <i data-lucide="shield" style="width: 48px; height: 48px; color: var(--color-success);"></i>
+                        </div>
+                        <h3>Regularization</h3>
+                        <p>Built-in batch normalization, dropout, and L1/L2 regularization to prevent overfitting.</p>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-icon">
+                            <i data-lucide="bar-chart-3" style="width: 48px; height: 48px; color: var(--color-info);"></i>
+                        </div>
+                        <h3>Visualization Tools</h3>
+                        <p>Interactive network visualization and comprehensive metrics for understanding model behavior.</p>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-icon">
+                            <i data-lucide="layers" style="width: 48px; height: 48px; color: var(--color-primary);"></i>
+                        </div>
+                        <h3>Rich Layer Support</h3>
+                        <p>Dense layers, multiple activation functions, and advanced regularization techniques.</p>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-icon">
+                            <i data-lucide="code" style="width: 48px; height: 48px; color: var(--color-warning);"></i>
+                        </div>
+                        <h3>Pure Python</h3>
+                        <p>Built with NumPy and Python for educational clarity and ease of understanding.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="nav-logo">NeuNet Documentation</div>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/Abhinavexists/NeuNet">GitHub Repository</a></li>
+                    <li><a href="implementation-guide.html">Implementation Guide</a></li>
+                    <li><a href="development-timeline.html">Development Timeline</a></li>
+                    <li><a href="reference.html">API Reference</a></li>
+                </ul>
+                <div class="copyright">© 2024 NeuNet Project. Open source under MIT License.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html> 

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reference - NeuNet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0f172a">
+    <script>
+        // Remove no-js class if JavaScript is available
+        document.documentElement.classList.remove('no-js');
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                    <circle cx="12" cy="12" r="3"/>
+                    <circle cx="6" cy="6" r="2"/>
+                    <circle cx="18" cy="6" r="2"/>
+                    <circle cx="6" cy="18" r="2"/>
+                    <circle cx="18" cy="18" r="2"/>
+                    <path d="m9 9 6-6"/>
+                    <path d="m15 9-6-6"/>
+                    <path d="m9 15 6 6"/>
+                    <path d="m15 15-6 6"/>
+                </svg>
+                NeuNet
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="implementation-guide.html">Implementation Guide</a></li>
+                <li><a href="development-timeline.html">Development Timeline</a></li>
+                <li><a href="reference.html" class="active">Reference</a></li>
+                <li><a href="https://github.com/Abhinavexists/NeuNet" target="_blank">GitHub</a></li>
+            </ul>
+            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Reference</h1>
+                <p class="subtitle">
+                    Quick reference guide for all NeuNet framework components, classes, and utilities.
+                    Everything you need to understand the framework's structure.
+                </p>
+            </div>
+        </section>
+
+        <!-- Reference Navigation -->
+        <section class="section">
+            <div class="container">
+                <div class="content-layout">
+                    <aside class="sidebar">
+                        <h3>Core Components</h3>
+                        <ul class="sidebar-nav">
+                            <li><a href="#neural-network">NeuralNetwork</a></li>
+                            <li><a href="#dense-layer">Dense Layer</a></li>
+                            <li><a href="#activation-functions">Activation Functions</a></li>
+                            <li><a href="#regularization">Regularization</a></li>
+                        </ul>
+
+                        <h3 style="margin-top: var(--space-8);">Supporting Tools</h3>
+                        <ul class="sidebar-nav">
+                            <li><a href="#optimizers">Optimizers</a></li>
+                            <li><a href="#loss-functions">Loss Functions</a></li>
+                            <li><a href="#metrics">Metrics</a></li>
+                            <li><a href="#visualization">Visualization</a></li>
+                        </ul>
+                    </aside>
+
+                    <main class="main-content">
+                        <div style="padding: var(--space-6); text-align: center; color: var(--color-text-secondary);">
+                            <p>Select a section from the navigation to view detailed component reference.</p>
+                        </div>
+                    </main>
+                </div>
+            </div>
+        </section>
+
+        <!-- Neural Network Class -->
+        <section id="neural-network" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>NeuralNetwork Class</h2>
+                    <p>The main neural network class that manages layers, training, and inference.</p>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Constructor</h3>
+                        <pre><code class="language-python">class NeuralNetwork:
+    def __init__(self):
+        """Initialize a new neural network.
+        
+        Attributes:
+            layers (list): List of network layers
+            loss_function: The loss function used for training
+            history (dict): Training history with 'loss' and 'accuracy' keys
+        """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>add(layer)</h3>
+                        <pre><code class="language-python">def add(self, layer):
+    """Add a layer to the network.
+    
+    Args:
+        layer: Any layer object (Dense, activation, regularization)
+        
+    Example:
+        model.add(Dense(64, 32))
+        model.add(ReLU())
+        model.add(Dropout(0.2))
+    """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>set_loss(loss_function)</h3>
+                        <pre><code class="language-python">def set_loss(self, loss_function):
+    """Set the loss function for training.
+    
+    Args:
+        loss_function: Loss function object
+        
+    Example:
+        model.set_loss(CategoricalCrossentropy(regularization_l2=0.001))
+    """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>forward(X, training=True)</h3>
+                        <pre><code class="language-python">def forward(self, X, training=True):
+    """Perform forward pass through the network.
+    
+    Args:
+        X (array): Input data of shape (batch_size, input_features)
+        training (bool): Whether in training mode (affects dropout, batch norm)
+        
+    Returns:
+        output (array): Network output of shape (batch_size, output_features)
+        
+    Example:
+        output = model.forward(X, training=True)  # Training mode
+        output = model.forward(X, training=False) # Inference mode
+    """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>train(X, Y, epochs=100, batch_size=32, patience=30, verbose=True)</h3>
+                        <pre><code class="language-python">def train(self, X, Y, epochs=100, batch_size=32, patience=30, verbose=True):
+    """Train the neural network with advanced features.
+    
+    Args:
+        X (array): Training features of shape (samples, features)
+        Y (array): Training labels of shape (samples,) or (samples, classes)
+        epochs (int): Maximum number of training epochs
+        batch_size (int): Batch size (0 for full batch)
+        patience (int): Early stopping patience
+        verbose (bool): Print training progress
+        
+    Features:
+        - Automatic data shuffling each epoch
+        - Early stopping when loss stops improving
+        - Learning rate decay
+        - Training history logging
+        - Progress reporting every 20 epochs
+        
+    Example:
+        model.train(X, Y, epochs=500, batch_size=32, patience=30)
+    """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>predict(X) & predict_proba(X)</h3>
+                        <pre><code class="language-python">def predict(self, X):
+    """Make class predictions.
+    
+    Returns:
+        predictions (array): Predicted class indices
+    """
+    
+def predict_proba(self, X):
+    """Get prediction probabilities.
+    
+    Returns:
+        probabilities (array): Class probabilities of shape (samples, classes)
+    """</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dense Layer -->
+        <section id="dense-layer" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Dense Layer</h2>
+                    <p>Fully connected layer with configurable optimizers and learning rate decay.</p>
+                    
+                    <pre><code class="language-python">class Dense(BaseLayer):
+    def __init__(self, n_inputs, n_neurons, learning_rate=0.01, 
+                 decay_rate=0.02, momentum=0.9, optimizer=None):
+        """Initialize a dense layer.
+        
+        Args:
+            n_inputs (int): Number of input features
+            n_neurons (int): Number of output neurons
+            learning_rate (float): Initial learning rate
+            decay_rate (float): Exponential decay rate
+            momentum (float): Momentum coefficient for SGD
+            optimizer (str): 'adam' for Adam optimizer, None for SGD
+            
+        Weight Initialization:
+            - Uses He initialization: weights ~ N(0, 2/n_inputs)
+            - Biases initialized to zero
+            
+        Learning Rate Decay:
+            - Exponential decay: lr = initial_lr * exp(-decay_rate * epoch)
+            
+        Example:
+            layer = Dense(64, 32, learning_rate=0.01, optimizer='adam')
+        """</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Activation Functions -->
+        <section id="activation-functions" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Activation Functions</h2>
+                    <p>Complete set of activation functions with proper gradient computation.</p>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>ReLU (Recommended for Hidden Layers)</h3>
+                        <pre><code class="language-python">class ReLU(BaseActivation):
+    def forward(self, inputs):
+        """ReLU: max(0, x)
+        
+        Args:
+            inputs: Input tensor
+            
+        Returns:
+            output: ReLU activated tensor
+        """
+        
+    def backward(self, dvalues):
+        """Compute ReLU gradient.
+        
+        Gradient is 1 for positive inputs, 0 for negative inputs.
+        """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>LeakyReLU</h3>
+                        <pre><code class="language-python">class LeakyReLU(BaseActivation):
+    def __init__(self, alpha=0.01):
+        """Leaky ReLU: max(αx, x) where α=0.01
+        
+        Args:
+            alpha (float): Slope for negative inputs
+        """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Softmax (For Classification Output)</h3>
+                        <pre><code class="language-python">class Softmax(BaseActivation):
+    def forward(self, inputs):
+        """Softmax: e^xi / Σe^xj (probability distribution)
+        
+        Includes numerical stability and proper Jacobian computation.
+        """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Sigmoid & Tanh</h3>
+                        <pre><code class="language-python">class Sigmoid(BaseActivation):
+    """Sigmoid: 1 / (1 + e^(-x))
+    Range: (0, 1) with numerical stability"""
+    
+class Tanh(BaseActivation):
+    """Tanh: (e^x - e^(-x)) / (e^x + e^(-x))
+    Range: (-1, 1)"""</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Regularization -->
+        <section id="regularization" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Regularization Techniques</h2>
+                    <p>Prevent overfitting with built-in regularization methods.</p>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Batch Normalization</h3>
+                        <pre><code class="language-python">class BatchNormalization(BaseRegularization):
+    def __init__(self, epsilon=1e-5, momentum=0.9):
+        """Normalize inputs to have zero mean and unit variance.
+        
+        Args:
+            epsilon (float): Small constant for numerical stability
+            momentum (float): Running statistics momentum
+            
+        Features:
+            - Handles training vs inference modes automatically
+            - Maintains running mean and variance for inference
+            - Includes learnable scale (gamma) and shift (beta) parameters
+        """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Dropout</h3>
+                        <pre><code class="language-python">class Dropout(BaseRegularization):
+    def __init__(self, rate):
+        """Randomly zero out neurons during training.
+        
+        Args:
+            rate (float): Fraction of neurons to drop (0.0 to 1.0)
+            
+        Features:
+            - Training: applies random masking with scaling
+            - Inference: no dropout applied
+            - Proper scaling to maintain expected output magnitude
+            
+        Example:
+            dropout = Dropout(rate=0.1)  # Drop 10% of neurons
+        """</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Optimizers -->
+        <section id="optimizers" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Optimizers</h2>
+                    <p>Two sophisticated optimizers for efficient training.</p>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Adam Optimizer (Recommended)</h3>
+                        <pre><code class="language-python">class Optimizer_Adam:
+    def __init__(self, learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-8):
+        """Adam combines momentum and adaptive learning rates.
+        
+        Args:
+            learning_rate (float): Step size
+            beta_1 (float): First moment decay rate
+            beta_2 (float): Second moment decay rate
+            epsilon (float): Small constant for numerical stability
+            
+        Features:
+            - Momentum estimates: m = β₁ * m + (1 - β₁) * gradient
+            - Variance estimates: v = β₂ * v + (1 - β₂) * gradient²
+            - Bias correction for better early training
+            - Adaptive per-parameter learning rates
+        """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>SGD with Momentum</h3>
+                        <pre><code class="language-python">class Optimizer_SGD_Momentum:
+    def __init__(self, learning_rate=0.01, momentum=0.9):
+        """SGD with momentum helps accelerate gradients in relevant directions.
+        
+        Args:
+            learning_rate (float): Step size
+            momentum (float): Momentum coefficient
+            
+        Features:
+            - Velocity update: velocity = momentum * velocity - learning_rate * gradient
+            - Parameter update: weights += velocity
+            - Dampens oscillations and accelerates convergence
+        """</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loss Functions -->
+        <section id="loss-functions" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Loss Functions</h2>
+                    <p>Loss functions with L1/L2 regularization support.</p>
+                    
+                    <pre><code class="language-python">class CategoricalCrossentropy(BaseLoss):
+    def __init__(self, regularization_l2=0.0, regularization_l1=0.0):
+        """Categorical crossentropy loss for multi-class classification.
+        
+        Args:
+            regularization_l2 (float): L2 penalty coefficient
+            regularization_l1 (float): L1 penalty coefficient
+            
+        Features:
+            - Supports both sparse and one-hot encoded labels
+            - Numerical stability with clipping
+            - L1/L2 regularization applied during gradient computation
+            - Proper gradient computation for backpropagation
+            
+        Example:
+            loss = CategoricalCrossentropy(regularization_l2=0.0001)
+        """</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Metrics -->
+        <section id="metrics" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Metrics & Evaluation</h2>
+                    <p>Comprehensive evaluation metrics for model assessment.</p>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Basic Metrics</h3>
+                        <pre><code class="language-python">def calculate_accuracy(y_true, y_pred):
+    """Calculate accuracy for predictions.
+    
+    Args:
+        y_true: True labels
+        y_pred: Predicted probabilities or class indices
+        
+    Returns:
+        accuracy (float): Classification accuracy
+    """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Advanced Metrics</h3>
+                        <pre><code class="language-python">def confusion_matrix(y_true, y_pred, num_classes):
+    """Calculate confusion matrix.
+    
+    Returns:
+        cm (array): Confusion matrix of shape (num_classes, num_classes)
+    """
+    
+def precision_recall_f1(y_true, y_pred, num_classes):
+    """Calculate precision, recall, and F1 score.
+    
+    Returns:
+        precision (array): Per-class precision scores
+        recall (array): Per-class recall scores
+        f1 (array): Per-class F1 scores
+    """</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization -->
+        <section id="visualization" class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Visualization Tools</h2>
+                    <p>Interactive network visualization and data plotting utilities.</p>
+                    
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Network Visualization</h3>
+                        <pre><code class="language-python">def network_visualization(json_file):
+    """Create interactive network visualization using Plotly.
+    
+    Args:
+        json_file (str): Path to exported network JSON file
+        
+    Returns:
+        fig: Plotly figure object
+        
+    Features:
+        - Interactive node and edge visualization
+        - Color-coded layers and weight-based edge styling
+        - Hover information for nodes and connections
+        - Automatic layout with layer-based positioning
+        - Saves as 'neural_network_visualization.html'
+        
+    Example:
+        fig = network_visualization("src/utils/network_data.json")
+    """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Dataset Utilities</h3>
+                        <pre><code class="language-python">def create_data(samples=100, classes=3, plot=True):
+    """Create synthetic dataset with well-separated clusters.
+    
+    Args:
+        samples (int): Number of data points to generate
+        classes (int): Number of classes to generate
+        plot (bool): Whether to visualize the data
+        
+    Returns:
+        X (array): Feature data of shape (samples, 2)
+        Y (array): Labels of shape (samples,)
+        
+    Features:
+        - Extremely well-separated clusters for easier classification
+        - Automatic visualization with matplotlib
+        - Saves scatter plot as 'scatter_plot.png'
+    """</code></pre>
+                    </div>
+
+                    <div style="margin-bottom: var(--space-6);">
+                        <h3>Network Export</h3>
+                        <pre><code class="language-python">def export_network(hidden_layer1, hidden_layer2, hidden_layer3, output_layer):
+    """Export network structure to JSON format.
+    
+    Args:
+        hidden_layer1, hidden_layer2, hidden_layer3, output_layer: Dense layer objects
+        
+    Features:
+        - Exports layer structure and connections
+        - Includes weight information for visualization
+        - Saves to 'src/utils/network_data.json'
+        - Compatible with network_visualization function
+    """</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Usage Examples -->
+        <section class="section">
+            <div class="container">
+                <div class="card">
+                    <h2>Complete Usage Example</h2>
+                    <pre><code class="language-python"># Import all necessary components
+from src.models.neural_network import NeuralNetwork
+from src.layers.core import Dense
+from src.layers.activations import ReLU, Softmax
+from src.layers.regularization import BatchNormalization, Dropout
+from src.layers.losses import CategoricalCrossentropy
+from src.layers.dataset import create_data
+from src.utils.metrics import calculate_accuracy, confusion_matrix, precision_recall_f1
+
+# Create synthetic dataset
+X, Y = create_data(samples=100, classes=3, plot=True)
+
+# Build the network
+model = NeuralNetwork()
+
+# Add layers with proper configuration
+model.add(Dense(2, 128, learning_rate=0.002, optimizer='adam'))
+model.add(BatchNormalization())
+model.add(ReLU())
+model.add(Dropout(0.1))
+
+model.add(Dense(128, 64, learning_rate=0.002, optimizer='adam'))
+model.add(BatchNormalization())
+model.add(ReLU())
+model.add(Dropout(0.1))
+
+model.add(Dense(64, 32, learning_rate=0.002, optimizer='adam'))
+model.add(BatchNormalization())
+model.add(ReLU())
+model.add(Dropout(0.1))
+
+model.add(Dense(32, 3, learning_rate=0.002, optimizer='adam'))
+model.add(Softmax())
+
+# Set loss function with regularization
+model.set_loss(CategoricalCrossentropy(regularization_l2=0.0001))
+
+# Train the model
+model.train(X, Y, epochs=500, batch_size=32, patience=30, verbose=True)
+
+# Evaluate the model
+predictions = model.predict(X)
+probabilities = model.predict_proba(X)
+accuracy = calculate_accuracy(Y, probabilities)
+
+# Detailed evaluation
+cm = confusion_matrix(Y, predictions, num_classes=3)
+precision, recall, f1 = precision_recall_f1(Y, predictions, num_classes=3)
+
+print(f"Final Accuracy: {accuracy:.4f}")
+print(f"Precision: {precision}")
+print(f"Recall: {recall}")
+print(f"F1-score: {f1}")
+
+# Visualize the network
+from src.utils.network_data import export_network
+from src.utils.Visualization import network_visualization
+
+dense_layers = [layer for layer in model.layers if hasattr(layer, 'weights')]
+export_network(*dense_layers[:4])
+fig = network_visualization("src/utils/network_data.json")
+</code></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="nav-logo">NeuNet Documentation</div>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/Abhinavexists/NeuNet">GitHub Repository</a></li>
+                    <li><a href="implementation-guide.html">Implementation Guide</a></li>
+                    <li><a href="development-timeline.html">Development Timeline</a></li>
+                    <li><a href="reference.html">API Reference</a></li>
+                </ul>
+                <div class="copyright">© 2024 NeuNet Project. Open source under MIT License.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html> 

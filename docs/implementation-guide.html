@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementation Guide - NeuNet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0f172a">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/plugins/autoloader/prism-autoloader.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-tomorrow.min.css">
+    <script>
+        // Remove no-js class if JavaScript is available
+        document.documentElement.classList.remove('no-js');
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                    <circle cx="12" cy="12" r="3"/>
+                    <circle cx="6" cy="6" r="2"/>
+                    <circle cx="18" cy="6" r="2"/>
+                    <circle cx="6" cy="18" r="2"/>
+                    <circle cx="18" cy="18" r="2"/>
+                    <path d="m9 9 6-6"/>
+                    <path d="m15 9-6-6"/>
+                    <path d="m9 15 6 6"/>
+                    <path d="m15 15-6 6"/>
+                </svg>
+                NeuNet
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="implementation-guide.html" class="active">Implementation Guide</a></li>
+                <li><a href="development-timeline.html">Development Timeline</a></li>
+                <li><a href="reference.html">Reference</a></li>
+                <li><a href="https://github.com/Abhinavexists/NeuNet" target="_blank">GitHub</a></li>
+            </ul>
+            <button class="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+        </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+                <h1>Implementation Guide</h1>
+            <p class="subtitle">Comprehensive guide to building and using neural networks with NeuNet</p>
+            </div>
+    </section>
+
+    <div class="container">
+        <div class="content-layout">
+            <aside class="sidebar">
+                <h3>Table of Contents</h3>
+                <ul class="sidebar-nav">
+                    <li><a href="#installation">Installation</a></li>
+                    <li><a href="#basic-usage">Basic Usage</a></li>
+                    <li><a href="#architecture">Network Architecture</a></li>
+                    <li><a href="#layers">Layer Types</a></li>
+                    <li><a href="#activations">Activation Functions</a></li>
+                    <li><a href="#optimizers">Optimizers</a></li>
+                    <li><a href="#regularization">Regularization</a></li>
+                    <li><a href="#training">Training Process</a></li>
+                    <li><a href="#evaluation">Model Evaluation</a></li>
+                    <li><a href="#visualization">Visualization</a></li>
+                    <li><a href="#examples">Complete Examples</a></li>
+                    </ul>
+                </aside>
+
+            <main class="main-content">
+                <section id="installation" class="content-section">
+                    <h2>Installation & Setup</h2>
+                    <p>NeuNet is built with pure Python and NumPy. Here's how to get started:</p>
+                    
+                    <h3>Prerequisites</h3>
+                    <pre><code class="language-bash">pip install numpy matplotlib plotly networkx pandas</code></pre>
+                    
+                    <h3>Project Structure</h3>
+                    <pre><code class="language-text">NeuNet/
+├── src/
+│   ├── models/
+│   │   └── neural_network.py    # Core NeuralNetwork class
+│   ├── layers/
+│   │   ├── core.py             # Dense layer implementation
+│   │   ├── activations.py      # Activation functions
+│   │   ├── regularization.py   # BatchNorm, Dropout
+│   │   ├── losses.py          # Loss functions
+│   │   ├── optimisers.py      # SGD, Adam optimizers
+│   │   └── dataset.py         # Data generation utilities
+│   ├── utils/
+│   │   ├── metrics.py         # Performance metrics
+│   │   ├── network_data.py    # Network export utilities
+│   │   └── Visualization.py   # Network visualization
+│   └── main.py               # Example implementation
+└── docs/                     # Documentation
+</code></pre>
+                </section>
+
+                <section id="basic-usage" class="content-section">
+                    <h2>Basic Usage</h2>
+                    <p>Creating your first neural network with NeuNet is straightforward:</p>
+                    
+                    <pre><code class="language-python">from src.models.neural_network import NeuralNetwork
+from src.layers.core import Dense
+from src.layers.activations import ReLU, Softmax
+from src.layers.losses import CategoricalCrossentropy
+
+# Create a new neural network
+model = NeuralNetwork()
+
+# Add layers
+model.add(Dense(2, 64, learning_rate=0.01))  # Input: 2, Output: 64
+model.add(ReLU())                            # ReLU activation
+model.add(Dense(64, 32, learning_rate=0.01)) # Hidden layer
+model.add(ReLU())                            # ReLU activation
+model.add(Dense(32, 3, learning_rate=0.01))  # Output layer: 3 classes
+model.add(Softmax())                         # Softmax for classification
+
+# Set loss function
+model.set_loss(CategoricalCrossentropy())
+
+# Train the model (X, Y are your data)
+model.train(X, Y, epochs=100, batch_size=32)
+
+# Make predictions
+predictions = model.predict(X)
+probabilities = model.predict_proba(X)
+</code></pre>
+                </section>
+
+                <section id="architecture" class="content-section">
+                    <h2>Network Architecture</h2>
+                    <p>The NeuralNetwork class is the core component that orchestrates the entire training process:</p>
+                    
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li><strong>Layer Management:</strong> Add layers sequentially using the <code>add()</code> method</li>
+                        <li><strong>Forward Pass:</strong> Automatic propagation through all layers</li>
+                        <li><strong>Backward Pass:</strong> Gradient computation and backpropagation</li>
+                        <li><strong>Training Loop:</strong> Built-in batch processing and early stopping</li>
+                        <li><strong>History Tracking:</strong> Loss and accuracy logging during training</li>
+                        </ul>
+
+                    <h3>Training Process</h3>
+                    <pre><code class="language-python"># The training method handles:
+# 1. Data shuffling for each epoch
+# 2. Batch processing
+# 3. Forward and backward passes
+# 4. Early stopping based on loss improvement
+# 5. Learning rate decay
+# 6. Performance logging
+
+model.train(
+    X, Y,                    # Training data
+    epochs=500,              # Maximum epochs
+    batch_size=32,           # Batch size (0 for full batch)
+    patience=30,             # Early stopping patience
+    verbose=True             # Print training progress
+)
+</code></pre>
+                    </section>
+
+                <section id="layers" class="content-section">
+                    <h2>Layer Types</h2>
+                    
+                    <h3>Dense Layer</h3>
+                    <p>The fully connected layer is the core building block of the network:</p>
+                    
+                    <pre><code class="language-python">from src.layers.core import Dense
+
+# Create a dense layer
+layer = Dense(
+    n_inputs=64,           # Number of input features
+    n_neurons=32,          # Number of output neurons
+    learning_rate=0.01,    # Learning rate
+    decay_rate=0.02,       # Learning rate decay
+    momentum=0.9,          # Momentum for SGD
+    optimizer='adam'       # 'adam' or None for SGD
+)
+</code></pre>
+
+                    <h3>Weight Initialization</h3>
+                    <p>The Dense layer uses He initialization for better gradient flow:</p>
+                    <pre><code class="language-python"># He initialization for ReLU networks
+        self.weights = np.random.randn(n_inputs, n_neurons) * np.sqrt(2. / n_inputs)
+        self.biases = np.zeros((1, n_neurons))
+</code></pre>
+
+                    <h3>Forward and Backward Pass</h3>
+                    <pre><code class="language-python"># Forward pass: y = Wx + b
+output = np.dot(inputs, weights) + biases
+
+# Backward pass: compute gradients
+dW = np.dot(inputs.T, dvalues)
+db = np.sum(dvalues, axis=0, keepdims=True)
+dinputs = np.dot(dvalues, weights.T)
+</code></pre>
+                </section>
+
+                <section id="activations" class="content-section">
+                    <h2>Activation Functions</h2>
+                    <p>NeuNet provides a complete set of activation functions with proper gradient computation:</p>
+                    
+                    <h3>ReLU (Recommended for Hidden Layers)</h3>
+                    <pre><code class="language-python">from src.layers.activations import ReLU
+
+# ReLU: max(0, x)
+relu = ReLU()
+output = relu.forward(inputs)      # Forward pass
+gradients = relu.backward(dvalues) # Backward pass
+</code></pre>
+
+                    <h3>Leaky ReLU</h3>
+                    <pre><code class="language-python">from src.layers.activations import LeakyReLU
+
+# Leaky ReLU: max(αx, x) where α=0.01
+leaky_relu = LeakyReLU(alpha=0.01)
+</code></pre>
+
+                    <h3>Softmax (For Classification Output)</h3>
+                    <pre><code class="language-python">from src.layers.activations import Softmax
+
+# Softmax: e^xi / Σe^xj (probability distribution)
+softmax = Softmax()
+# Includes numerical stability and proper Jacobian computation
+</code></pre>
+
+                    <h3>Other Activations</h3>
+                    <pre><code class="language-python">from src.layers.activations import Tanh, Sigmoid
+
+# Tanh: (-1, 1) range
+tanh = Tanh()
+
+# Sigmoid: (0, 1) range with numerical stability
+sigmoid = Sigmoid()
+</code></pre>
+                </section>
+
+                <section id="optimizers" class="content-section">
+                    <h2>Optimizers</h2>
+                    <p>NeuNet includes two sophisticated optimizers for efficient training:</p>
+                    
+                    <h3>SGD with Momentum</h3>
+                    <pre><code class="language-python"># SGD with momentum helps accelerate gradients in relevant directions
+# and dampens oscillations
+
+# Velocity update:
+velocity = momentum * velocity - learning_rate * gradient
+
+# Parameter update:
+weights += velocity
+</code></pre>
+
+                    <h3>Adam Optimizer (Recommended)</h3>
+                    <pre><code class="language-python"># Adam combines momentum and adaptive learning rates
+# Includes bias correction for better early training
+
+# Momentum estimates:
+m = β₁ * m + (1 - β₁) * gradient
+v = β₂ * v + (1 - β₂) * gradient²
+
+# Bias correction:
+m_corrected = m / (1 - β₁^t)
+v_corrected = v / (1 - β₂^t)
+
+# Parameter update:
+weights -= learning_rate * m_corrected / (√v_corrected + ε)
+</code></pre>
+
+                    <h3>Usage Example</h3>
+                    <pre><code class="language-python"># Use Adam optimizer (recommended for most cases)
+model.add(Dense(64, 32, learning_rate=0.002, optimizer='adam'))
+
+# Use SGD with momentum (more traditional approach)
+model.add(Dense(64, 32, learning_rate=0.01, optimizer=None, momentum=0.9))
+</code></pre>
+                    </section>
+
+                <section id="regularization" class="content-section">
+                    <h2>Regularization Techniques</h2>
+                    <p>Prevent overfitting with built-in regularization methods:</p>
+                    
+                    <h3>Batch Normalization</h3>
+                    <pre><code class="language-python">from src.layers.regularization import BatchNormalization
+
+# Normalize inputs to have zero mean and unit variance
+batch_norm = BatchNormalization(
+    epsilon=1e-5,    # Small constant for numerical stability
+    momentum=0.9     # Running statistics momentum
+)
+
+# Handles training vs inference modes automatically
+# Maintains running mean and variance for inference
+</code></pre>
+
+                    <h3>Dropout</h3>
+                    <pre><code class="language-python">from src.layers.regularization import Dropout
+
+# Randomly zero out neurons during training
+dropout = Dropout(rate=0.1)  # Drop 10% of neurons
+
+# Automatically handles training vs inference:
+# - Training: applies random masking with scaling
+# - Inference: no dropout applied
+</code></pre>
+
+                    <h3>L1/L2 Regularization</h3>
+                    <pre><code class="language-python">from src.layers.losses import CategoricalCrossentropy
+
+# Add L2 regularization to loss function
+loss = CategoricalCrossentropy(
+    regularization_l2=0.0001,  # L2 penalty coefficient
+    regularization_l1=0.0      # L1 penalty coefficient
+)
+
+# Regularization is applied during gradient computation
+# Helps prevent overfitting by penalizing large weights
+</code></pre>
+                    </section>
+
+                <section id="training" class="content-section">
+                    <h2>Training Process</h2>
+                    <p>The training loop includes several advanced features:</p>
+                    
+                    <h3>Early Stopping</h3>
+                    <pre><code class="language-python"># Early stopping prevents overfitting
+model.train(
+    X, Y,
+    epochs=1000,      # Maximum epochs
+    patience=30,      # Stop if no improvement for 30 epochs
+    batch_size=32
+)
+
+# Monitors validation loss and stops when:
+# 1. Loss doesn't improve for 'patience' epochs
+# 2. Minimum 100 epochs have passed
+</code></pre>
+
+                    <h3>Learning Rate Decay</h3>
+                    <pre><code class="language-python"># Automatic exponential learning rate decay
+# learning_rate = initial_lr * exp(-decay_rate * epoch)
+
+layer = Dense(64, 32, 
+    learning_rate=0.01,   # Initial learning rate
+    decay_rate=0.02       # Decay coefficient
+)
+</code></pre>
+
+                    <h3>Batch Processing</h3>
+                    <pre><code class="language-python"># Efficient batch processing with data shuffling
+model.train(
+    X, Y,
+    batch_size=32,    # Process 32 samples at once
+    # batch_size=0   # Use full batch (all data)
+)
+
+# Each epoch:
+# 1. Shuffles training data
+# 2. Processes data in batches
+# 3. Updates parameters after each batch
+</code></pre>
+
+                    <h3>Training History</h3>
+                    <pre><code class="language-python"># Access training history
+history = model.history
+print(f"Loss history: {history['loss']}")
+print(f"Accuracy history: {history['accuracy']}")
+
+# Logged every 20 epochs during training
+</code></pre>
+                </section>
+
+                <section id="evaluation" class="content-section">
+                    <h2>Model Evaluation</h2>
+                    <p>Comprehensive evaluation metrics are available:</p>
+                    
+                    <h3>Basic Metrics</h3>
+                    <pre><code class="language-python">from src.utils.metrics import calculate_accuracy
+
+# Get predictions
+predictions = model.predict(X_test)        # Class predictions
+probabilities = model.predict_proba(X_test) # Class probabilities
+
+# Calculate accuracy
+accuracy = calculate_accuracy(y_true, probabilities)
+print(f"Accuracy: {accuracy:.4f}")
+</code></pre>
+
+                    <h3>Advanced Metrics</h3>
+                    <pre><code class="language-python">from src.utils.metrics import confusion_matrix, precision_recall_f1
+
+# Confusion matrix
+cm = confusion_matrix(y_true, predictions, num_classes=3)
+print("Confusion Matrix:")
+print(cm)
+
+# Precision, Recall, F1-score
+precision, recall, f1 = precision_recall_f1(y_true, predictions, num_classes=3)
+print(f"Precision: {precision}")
+print(f"Recall: {recall}")
+print(f"F1-score: {f1}")
+</code></pre>
+                </section>
+
+                <section id="visualization" class="content-section">
+                    <h2>Visualization</h2>
+                    <p>NeuNet includes powerful visualization tools:</p>
+                    
+                    <h3>Network Visualization</h3>
+                    <pre><code class="language-python">from src.utils.network_data import export_network
+from src.utils.Visualization import network_visualization
+
+# Export network structure (first 4 dense layers)
+dense_layers = [layer for layer in model.layers if hasattr(layer, 'weights')]
+export_network(*dense_layers[:4])
+
+# Create interactive visualization
+fig = network_visualization("src/utils/network_data.json")
+# Saves as 'neural_network_visualization.html'
+</code></pre>
+
+                    <h3>Dataset Visualization</h3>
+                    <pre><code class="language-python">from src.layers.dataset import create_data
+
+# Create and visualize synthetic dataset
+X, Y = create_data(samples=100, classes=3, plot=True)
+# Automatically saves scatter plot as 'scatter_plot.png'
+</code></pre>
+                </section>
+
+                <section id="examples" class="content-section">
+                    <h2>Complete Examples</h2>
+                    
+                    <h3>Classification on Synthetic Data</h3>
+                    <pre><code class="language-python">import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.models.neural_network import NeuralNetwork
+from src.layers.core import Dense
+from src.layers.activations import ReLU, Softmax
+from src.layers.regularization import BatchNormalization, Dropout
+from src.layers.losses import CategoricalCrossentropy
+from src.layers.dataset import create_data
+from src.utils.metrics import calculate_accuracy
+
+# Create synthetic dataset
+X, Y = create_data(samples=100, classes=3, noise=0.2)
+
+# Build the network
+model = NeuralNetwork()
+
+# Layer 1: Input -> 128 neurons
+model.add(Dense(2, 128, learning_rate=0.002, optimizer='adam'))
+model.add(BatchNormalization())
+model.add(ReLU())
+model.add(Dropout(0.1))
+
+# Layer 2: 128 -> 64 neurons
+model.add(Dense(128, 64, learning_rate=0.002, optimizer='adam'))
+model.add(BatchNormalization())
+model.add(ReLU())
+model.add(Dropout(0.1))
+
+# Layer 3: 64 -> 32 neurons
+model.add(Dense(64, 32, learning_rate=0.002, optimizer='adam'))
+model.add(BatchNormalization())
+model.add(ReLU())
+model.add(Dropout(0.1))
+
+# Output layer: 32 -> 3 classes
+model.add(Dense(32, 3, learning_rate=0.002, optimizer='adam'))
+model.add(Softmax())
+
+# Set loss function with L2 regularization
+model.set_loss(CategoricalCrossentropy(regularization_l2=0.0001))
+
+# Train the model
+print("Training neural network...")
+model.train(X, Y, epochs=500, batch_size=32, patience=30)
+
+# Evaluate the model
+predictions = model.predict_proba(X)
+accuracy = calculate_accuracy(Y, predictions)
+print(f"\nFinal Accuracy: {accuracy:.4f}")
+
+# Export and visualize the network
+from src.utils.network_data import export_network
+dense_layers = [layer for layer in model.layers if hasattr(layer, 'weights')]
+if len(dense_layers) >= 4:
+    export_network(*dense_layers[:4])
+    print("Network exported successfully!")
+</code></pre>
+
+                    <h3>Custom Training Loop</h3>
+                    <pre><code class="language-python"># For more control, you can implement custom training
+def custom_training_loop(model, X, Y, epochs=100):
+    for epoch in range(epochs):
+        # Forward pass
+        output = model.forward(X, training=True)
+        
+        # Calculate loss
+        loss = model.loss_function.calculate(output, Y)
+        
+        # Backward pass
+        loss_gradient = model.loss_function.backward(output, Y)
+        model.backward(loss_gradient, epoch)
+        
+        # Log progress
+        if epoch % 20 == 0:
+            val_output = model.forward(X, training=False)
+            accuracy = calculate_accuracy(Y, val_output)
+            print(f"Epoch {epoch}, Loss: {loss:.6f}, Accuracy: {accuracy:.4f}")
+
+# Use custom training
+custom_training_loop(model, X, Y, epochs=200)
+</code></pre>
+                    </section>
+            </main>
+                        </div>
+                </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="nav-logo">NeuNet Documentation</div>
+                <ul class="footer-links">
+                    <li><a href="https://github.com/Abhinavexists/NeuNet">GitHub Repository</a></li>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="development-timeline.html">Development Timeline</a></li>
+                    <li><a href="reference.html">API Reference</a></li>
+                </ul>
+                <div class="copyright">© 2024 NeuNet Project. Open source under MIT License.</div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+    </script>
+</body>
+</html> 
